@@ -165,11 +165,12 @@ pub fn load(history: usize) -> Result<Corpus> {
             value => return Err(format!("unknown split {value:?}").into()),
         };
         let result = ResultLabel::parse(fields[1])?;
-        let moves = fields[2]
-            .split_ascii_whitespace()
+        let move_tokens = fields[2].split_ascii_whitespace().collect::<Vec<_>>();
+        let game_identity: Arc<str> = Arc::from(move_tokens.join(" "));
+        let moves = move_tokens
+            .into_iter()
             .map(chess_move)
             .collect::<Result<Vec<_>>>()?;
-        let game_identity: Arc<str> = Arc::from(fields[2]);
         if moves.is_empty() {
             return Err("opening line contains no moves".into());
         }
