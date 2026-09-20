@@ -223,13 +223,23 @@ fn main() -> Result<()> {
         model.parameter_count()
     );
 
-    let evaluation_ids = evaluation
+    let evaluation_game_identities = evaluation
         .iter()
-        .map(|sample| sample.id)
+        .map(|sample| sample.game_identity.clone())
         .collect::<Vec<_>>();
     let training_ids = training.iter().map(|sample| sample.id).collect::<Vec<_>>();
-    let mut disjoint = TrainEvalDisjoint::new();
-    disjoint.observe_evaluation(evaluation_ids)?;
+    let mut disjoint = Disjointness::new(
+        IdentityScheme::new(
+            "chess-move-sequence",
+            "1",
+            "complete whitespace-normalized UCI move sequence for one game",
+        )?,
+        [
+            PopulationSpec::streaming("training"),
+            PopulationSpec::retained("evaluation"),
+        ],
+    )?;
+    disjoint.observe("evaluation", evaluation_game_identities)?;
     let initial = metrics(&model, &evaluation, &device)?;
     print_metrics("initial", &initial);
 
@@ -238,7 +248,13 @@ fn main() -> Result<()> {
     let mut trainer = Trainer::new(AdamW::new(learning_rate, weight_decay)?);
     let started = Instant::now();
     while let Some(batch) = loader.next_batch()? {
-        disjoint.observe_train(batch.sample_ids.iter().copied())?;
+        disjoint.observe(
+            "training",
+            batch
+                .samples
+                .iter()
+                .map(|sample| sample.game_identity.clone()),
+        )?;
         let (inputs, policy_targets, value_targets) =
             tensors(&batch.samples, model.axes(), &device)?;
         let report = trainer.step(&mut model, |model| {
@@ -263,7 +279,7 @@ fn main() -> Result<()> {
     print_metrics("final", &final_metrics);
     println!("elapsed_s={:.2}", started.elapsed().as_secs_f64());
     println!("{}", loader.receipt());
-    println!("{}", disjoint.receipt());
+    println!("{}", disjoint.assert_disjoint()?);
     if !final_metrics.total_loss.is_finite() {
         return Err("Chessformer acceptance produced a non-finite evaluation loss".into());
     }

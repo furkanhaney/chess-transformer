@@ -1,4 +1,5 @@
 use axis::prelude::Result;
+use std::sync::Arc;
 
 const CORPUS: &str = include_str!("../data/smoke-games.tsv");
 
@@ -11,6 +12,7 @@ pub enum Split {
 #[derive(Clone)]
 pub struct PositionSample {
     pub id: u128,
+    pub game_identity: Arc<str>,
     pub input: Vec<f32>,
     pub move_index: usize,
     pub outcome: usize,
@@ -167,6 +169,7 @@ pub fn load(history: usize) -> Result<Corpus> {
             .split_ascii_whitespace()
             .map(chess_move)
             .collect::<Result<Vec<_>>>()?;
+        let game_identity: Arc<str> = Arc::from(fields[2]);
         if moves.is_empty() {
             return Err("opening line contains no moves".into());
         }
@@ -198,6 +201,7 @@ pub fn load(history: usize) -> Result<Corpus> {
             };
             let sample = PositionSample {
                 id: (namespace(split) << 64) | ((game_index as u128) << 32) | ply as u128,
+                game_identity: Arc::clone(&game_identity),
                 input: encode_history(&states, ply, history),
                 move_index: from * 64 + to,
                 outcome: result.outcome_for_side_to_move(white_to_move),
@@ -235,12 +239,12 @@ mod tests {
                 .iter()
                 .all(|sample| sample.input.len() == 64 * 96)
         );
-        assert!(
-            corpus
-                .train
+        assert!(corpus.train.iter().all(|sample| {
+            !corpus
+                .evaluation
                 .iter()
-                .all(|sample| !corpus.evaluation.iter().any(|other| sample.id == other.id))
-        );
+                .any(|other| sample.game_identity == other.game_identity)
+        }));
         Ok(())
     }
 

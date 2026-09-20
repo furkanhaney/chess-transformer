@@ -44,10 +44,12 @@ continuing to train over all of it. The reported 59.01% policy and 52.88% value
 "validation" accuracies from run 009 therefore include positions seen during
 training. They remain historical training-subset diagnostics.
 
-The Axis smoke splits game lines first, assigns stable `(split, game, ply)`
-identities, and asks `TrainEvalDisjoint` to reject any cross-boundary identity.
-This proves observed identity separation for the included corpus. It does not
-prove the corpus is representative of Lichess or ALLIE.
+The Axis smoke splits game lines first and uses the complete normalized UCI
+move sequence as the semantic game identity. Axis retains evaluation game
+identities and checks every streamed training position against them. This
+proves observed whole-game separation for the included corpus, including
+duplicate move sequences that happen to carry different source-row IDs. It
+does not prove the corpus is representative of Lichess or ALLIE.
 
 ## Full-run admission
 
