@@ -19,7 +19,7 @@ Command, from the repository root, reusing the already provisioned sibling
 CUDA 13.2 toolkit:
 
 ```bash
-CUDA_TOOLKIT_PATH=../sudoku-transformer/.cuda bash scripts/check.sh
+CUDA_TOOLKIT_PATH="$(realpath ../sudoku-transformer/.cuda)" bash scripts/check.sh
 ```
 
 ## Result

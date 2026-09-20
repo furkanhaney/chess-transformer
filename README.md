@@ -40,6 +40,10 @@ bash scripts/check.sh
 bash scripts/train.sh --smoke
 ```
 
+The setup helper hash-verifies NVIDIA's archives and materializes their six
+linker aliases as independent regular files. Re-running it checks and repairs
+those copies even when every package marker is already present.
+
 The included corpus is deliberately too small to measure chess ability. Its
 job is to prove the architecture, gradients, optimizer, representation, and
 data contracts together on a real GPU path.
