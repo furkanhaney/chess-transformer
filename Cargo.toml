@@ -1,0 +1,19 @@
+[package]
+name = "chess-transformer"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.89"
+license = "MIT"
+publish = false
+description = "A Chessformer research migration in Rust on Axis"
+default-run = "chess-transformer"
+
+[dependencies]
+axis = { git = "https://gitlab.com/furkanhaney/axis.git", rev = "767326049ef661e226a074f3fe551ebcd98613bf" }
+
+[[bin]]
+name = "chess-transformer"
+path = "src/main.rs"
+
+[lints.rust]
+unsafe_code = "deny"

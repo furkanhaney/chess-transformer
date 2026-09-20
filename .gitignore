@@ -1,0 +1,8 @@
+/.cuda/
+/target/
+/runs/
+*.pt
+*.npy
+*.npz
+*.pgn
+*.zst
