@@ -41,6 +41,8 @@ not a playing-strength benchmark. A full experiment needs a versioned Lichess
 recipe, time-control filtering, Elo balancing, a game-disjoint test corpus, and
 a durable run certificate.
 
-Axis is an outside git dependency pinned by revision. Shared tensor, optimizer,
-data-regime, or module behavior belongs in Axis. Chess representation, GAB,
-policy/value metrics, data recipes, and experiments belong here.
+Axis is an outside crates.io dependency pinned in `Cargo.lock`. Shared tensor,
+optimizer, data-regime, or module behavior belongs in Axis. Chess
+representation, GAB, policy/value metrics, data recipes, and experiments belong
+here. Upgrade Axis through a reviewed dependency PR and run the complete GPU
+acceptance gate before merging it.

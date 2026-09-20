@@ -1,10 +1,10 @@
 # Chess Transformer
 
 ![Rust 1.89+](https://img.shields.io/badge/Rust-1.89%2B-b7410e?logo=rust)
-![Axis](https://img.shields.io/badge/Axis-CUDA-5b5bd6)
+[![Axis 0.3](https://img.shields.io/badge/Axis-0.3-5b5bd6)](https://crates.io/crates/axis)
 ![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)
 
-A Rust + [Axis](https://gitlab.com/furkanhaney/axis) migration of the
+A Rust + [Axis](https://github.com/furkanhaney/axis) migration of the
 Chessformer human-move experiment. The model reads a chess position as 64
 square tokens and jointly learns the move a person played and the eventual
 game outcome from the moving side's perspective.
