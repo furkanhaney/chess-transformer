@@ -50,7 +50,7 @@ data contracts together on a real GPU path.
 
 ## Historical result, with its boundary
 
-The strongest completed Python run (`research/chessformer/runs/run_009_value`)
+The strongest completed Python run (`research/src/learning/chessformer/runs/run_009_value`)
 trained a 5.08M-parameter model for one epoch over 783,251 positions from
 100,000 Lichess games. Its log reports 59.01% policy accuracy and 52.88% value
 accuracy. Those are training-subset diagnostics: the Python validation loader

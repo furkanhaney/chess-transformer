@@ -1,6 +1,6 @@
 # Migration contract
 
-Source: `../research/chessformer/` at the Rasat source roof. The selected
+Source: `../research/src/learning/chessformer/` at the Rasat source roof. The selected
 experiment is `runs/run_009_value`, because it exercises the 5M Chessformer,
 the policy and value objectives, history, GAB, AdamW, and the largest recorded
 local corpus (100,000 games; 783,251 delivered positions).

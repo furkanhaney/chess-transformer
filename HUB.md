@@ -1,6 +1,6 @@
 # Chess Transformer — human-move modelling on Axis
 
-This is the Rust + Axis successor to `research/chessformer`, the 2026 Python +
+This is the Rust + Axis successor to `research/src/learning/chessformer`, the 2026 Python +
 PyTorch replication of Chessformer. README.md is for outside humans. Migration
 contracts, claim boundaries, and continuation state live under `docs/`.
 
